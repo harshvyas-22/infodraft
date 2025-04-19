@@ -40,7 +40,7 @@ app.use(express.static(path.join(__dirname, "public")));
 // Configure CORS
 app.use(
   cors({
-    origin: "*", // Allow all origins (you can restrict this to specific domains)
+    origin: "https://infodraft.vercel.app", // Allow only the frontend domain
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })
