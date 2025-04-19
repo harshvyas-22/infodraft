@@ -35,7 +35,7 @@ const Login = () => {
         localStorage.setItem("isLoggedIn", true);
         localStorage.setItem("userId", data.userId);
         setTimeout(() => {
-          navigate("/");
+          window.location.href = "/";
         }, 100);
       } else {
         setError(data.message);
