@@ -1,27 +1,46 @@
-import React from 'react'
-import "./App.css"
+import React, { useEffect, useState } from "react";
+import "./App.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import Home from './pages/Home';
-import NoPage from './pages/NoPage';
-import SignUp from './pages/SignUp';
-import Login from './pages/Login';
-import CreateDocs from './pages/createDocs';
+import Home from "./pages/Home";
+import NoPage from "./pages/NoPage";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import CreateDocs from "./pages/createDocs";
 
 const App = () => {
-  const isLoggedIn = localStorage.getItem('isLoggedIn');
-  return (
-    <>
-      <BrowserRouter>
-        <Routes>
-            <Route path='/' element={isLoggedIn ? <Home /> : <Navigate to="/login"/>} />
-            <Route path='/signUp' element={<SignUp />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/createDocs/:docsId' element={isLoggedIn ? <CreateDocs /> : <Navigate to="/login"/>} />
-            <Route path="*" element={isLoggedIn ? <NoPage /> : <Navigate to="/login"/>} />
-        </Routes>
-      </BrowserRouter>
-    </>
-  )
-}
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    localStorage.getItem("isLoggedIn") === "true"
+  );
 
-export default App
+  useEffect(() => {
+    const handleStorageChange = () => {
+      setIsLoggedIn(localStorage.getItem("isLoggedIn") === "true");
+    };
+
+    window.addEventListener("storage", handleStorageChange);
+    return () => window.removeEventListener("storage", handleStorageChange);
+  }, []);
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
+        />
+        <Route path="/signUp" element={<SignUp />} />
+        <Route path="/login" element={<Login />} />
+        <Route
+          path="/createDocs/:docsId"
+          element={isLoggedIn ? <CreateDocs /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="*"
+          element={isLoggedIn ? <NoPage /> : <Navigate to="/login" />}
+        />
+      </Routes>
+    </BrowserRouter>
+  );
+};
+
+export default App;
