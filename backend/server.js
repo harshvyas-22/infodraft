@@ -15,7 +15,6 @@ const app = express();
 // MongoDB Connection
 console.log(process.env.MONGO_URL);
 
-
 mongoose.connect(process.env.MONGO_URL, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -37,7 +36,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(cors());
+
+// Configure CORS
+app.use(
+  cors({
+    origin: "*", // Allow all origins (you can restrict this to specific domains)
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
+  })
+);
 
 // Routes
 app.use("/", indexRouter);

@@ -18,7 +18,7 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:3000/login", {
+      const response = await fetch("https://infodraft.onrender.com/login", {
         mode: "cors",
         method: "POST",
         headers: {
