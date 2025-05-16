@@ -41,6 +41,7 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(
   cors({
     origin: "https://infodraft.vercel.app", // Allow only the frontend domain
+    // origin: "http://localhost:5173", // Allow only the frontend domain
     methods: ["GET", "POST", "PUT", "DELETE"], // Allowed HTTP methods
     allowedHeaders: ["Content-Type", "Authorization"], // Allowed headers
   })

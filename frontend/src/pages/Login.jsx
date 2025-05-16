@@ -18,25 +18,23 @@ const Login = () => {
   const login = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("https://infodraft.onrender.com/login", {
+      const response = await fetch(`${api_base_url}/login`, {
         mode: "cors",
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email: email.toLowerCase(), // Convert email to lowercase
+          email: email.toLowerCase(),
           password: pwd,
         }),
       });
       const data = await response.json();
-      if (data.success === true) {
+      if (data.success) {
         localStorage.setItem("token", data.token);
         localStorage.setItem("isLoggedIn", true);
-        localStorage.setItem("userId", data.userId);
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 100);
+        localStorage.setItem("userId", data.user.id);
+        navigate("/"); // Redirect to home page
       } else {
         setError(data.message);
       }
@@ -44,6 +42,14 @@ const Login = () => {
       console.error("Error during login:", error);
       setError("An error occurred. Please try again.");
     }
+  };
+
+  const loginAsGuest = () => {
+    localStorage.setItem("token", "guest-token");
+    localStorage.setItem("isLoggedIn", true);
+    localStorage.setItem("userId", "682727a14bc47d745b1c46b2"); // ✅ must be a real MongoDB ObjectId
+
+    window.location.href = "/";
   };
 
   return (
@@ -112,6 +118,14 @@ const Login = () => {
                 Login
               </button>
             </form>
+
+            {/* Login as Guest Button */}
+            <button
+              className="p-[10px] bg-gray-500 transition-all hover:bg-gray-600 text-white rounded-lg w-full border-0 mt-3"
+              onClick={loginAsGuest}
+            >
+              Login as Guest
+            </button>
           </div>
           <div className="right flex items-end justify-end">
             <img className="w-[35vw]" src={rightIMG} alt="" />

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom"; // Add useLocation for getting the current URL
 import Navbar from "../components/Navbar";
 import React, { useState, useRef, useEffect } from "react";
 import JoditEditor from "jodit-pro-react";
@@ -6,6 +6,7 @@ import { api_base_url } from "../Helper";
 
 const createDocs = () => {
   let { docsId } = useParams();
+  const location = useLocation(); // Get the current location
   const editor = useRef(null);
   const [content, setContent] = useState("");
   const [error, setError] = useState("");
@@ -80,8 +81,8 @@ const createDocs = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.success) {
-          setData(data.docs);
-          setFilteredData(data.docs); // Initialize filtered data
+          setData(data.docs || []); // Ensure docs is an array
+          setFilteredData(data.docs || []); // Initialize filtered data
         }
       })
       .catch((error) => {
@@ -99,6 +100,19 @@ const createDocs = () => {
     setFilteredData(filtered);
   };
 
+  const shareDoc = () => {
+    const currentUrl = `${window.location.origin}${location.pathname}`;
+    navigator.clipboard
+      .writeText(currentUrl)
+      .then(() => {
+        alert("URL copied to clipboard!");
+      })
+      .catch((error) => {
+        console.error("Failed to copy URL:", error);
+        alert("Failed to copy URL. Please try again.");
+      });
+  };
+
   useEffect(() => {
     getContent();
     getAllDocs();
@@ -110,12 +124,20 @@ const createDocs = () => {
       <div className="px-[100px] mt-3">
         <div className="flex justify-between items-center mb-3">
           <h1 className="text-2xl font-bold">Edit Document</h1>
-          <button
-            className="p-[10px] bg-blue-500 transition-all hover:bg-blue-600 text-white rounded-lg border-0"
-            onClick={updateDoc}
-          >
-            Save
-          </button>
+          <div className="flex gap-3">
+            <button
+              className="p-[10px] bg-blue-500 transition-all hover:bg-blue-600 text-white rounded-lg border-0"
+              onClick={updateDoc}
+            >
+              Save
+            </button>
+            <button
+              className="p-[10px] bg-gray-500 transition-all hover:bg-gray-600 text-white rounded-lg border-0"
+              onClick={shareDoc}
+            >
+              Share
+            </button>
+          </div>
         </div>
         <JoditEditor
           ref={editor}
@@ -138,18 +160,21 @@ const createDocs = () => {
 
         {/* Search Results */}
         <div className="mt-3">
-          {filteredData.map((doc) => (
-            <div
-              key={doc._id}
-              className="p-[10px] border-b border-gray-300 cursor-pointer hover:bg-gray-100"
-              onClick={() => {
-                // Navigate to the document or perform an action
-                console.log(`Selected document: ${doc.title}`);
-              }}
-            >
-              {doc.title}
-            </div>
-          ))}
+          {filteredData.length === 0 ? (
+            <p>No documents found</p>
+          ) : (
+            filteredData.map((doc) => (
+              <div
+                key={doc._id}
+                className="p-[10px] border-b border-gray-300 cursor-pointer hover:bg-gray-100"
+                onClick={() => {
+                  console.log(`Selected document: ${doc.title}`);
+                }}
+              >
+                {doc.title}
+              </div>
+            ))
+          )}
         </div>
       </div>
     </>
