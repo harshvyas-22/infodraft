@@ -54,7 +54,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="flex overflow-hidden items-center w-screen justify-center flex-col h-screen bg-[#F0F0F0]">
+      <div className="flex overflow-hidden items-center w-screen justify-center flex-col h-screen bg-[#ffffff]">
         <div className="flex w-full items-center">
           <div className="left w-[30%] flex flex-col ml-[100px]">
             <img className="w-[210px]" src={logo} alt="" />
@@ -80,8 +80,8 @@ const Login = () => {
               </div>
 
               <div className="inputCon">
-                <p className=" text-[14px] text-[#808080]">Password</p>
-                <div className="inputBox w-[100%] flex items-center">
+                <p className="text-[14px] text-[#808080]">Password</p>
+                <div className="inputBox relative w-[100%] flex items-center">
                   <i>
                     <MdOutlineWifiPassword />
                   </i>
@@ -90,18 +90,18 @@ const Login = () => {
                       setPwd(e.target.value);
                     }}
                     value={pwd}
-                    type={showPassword ? "text" : "password"} // Toggle input type
+                    type={showPassword ? "text" : "password"}
                     placeholder="Password"
                     id="Password"
                     name="Password"
                     required
+                    className="w-full pr-10"
                   />
                   <i
-                    className="cursor-pointer !mr-3 !text-[25px]"
-                    onClick={() => setShowPassword(!showPassword)} // Toggle password visibility
+                    className="cursor-pointer absolute right-2 text-[20px]"
+                    onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <IoEyeOff /> : <IoEye />}{" "}
-                    {/* Toggle icon */}
+                    {showPassword ? <IoEyeOff /> : <IoEye />}
                   </i>
                 </div>
               </div>

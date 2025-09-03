@@ -6,6 +6,7 @@ import NoPage from "./pages/NoPage";
 import SignUp from "./pages/SignUp";
 import Login from "./pages/Login";
 import CreateDocs from "./pages/createDocs";
+import Footer from "./components/Footer";
 
 const App = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(
@@ -22,24 +23,29 @@ const App = () => {
   }, []);
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
-        />
-        <Route path="/signUp" element={<SignUp />} />
-        <Route path="/login" element={<Login />} />
-        <Route
-          path="/createDocs/:docsId"
-          element={isLoggedIn ? <CreateDocs /> : <Navigate to="/login" />}
-        />
-        <Route
-          path="*"
-          element={isLoggedIn ? <NoPage /> : <Navigate to="/login" />}
-        />
-      </Routes>
-    </BrowserRouter>
+    <div className="min-h-screen flex flex-col">
+      <div className="flex-grow">
+        <BrowserRouter>
+          <Routes>
+            <Route
+              path="/"
+              element={isLoggedIn ? <Home /> : <Navigate to="/login" />}
+            />
+            <Route path="/signUp" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/createDocs/:docsId"
+              element={isLoggedIn ? <CreateDocs /> : <Navigate to="/login" />}
+            />
+            <Route
+              path="*"
+              element={isLoggedIn ? <NoPage /> : <Navigate to="/login" />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </div>
+      <Footer />
+    </div>
   );
 };
 

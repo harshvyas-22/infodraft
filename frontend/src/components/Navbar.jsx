@@ -74,15 +74,15 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="navbar flex items-center px-[100px] h-[90px] justify-between bg-[#F4F4F4] relative z-10">
-        <img src={logo} alt="logo" />
-        <div className="right flex items-center justify-end gap-2 relative">
-          <div className="inputBox w-[30vw] relative">
-            <div className="flex items-center gap-2 border border-gray-300 rounded-lg px-2 w-[30vw] bg-white">
+      <div className="navbar flex flex-col md:flex-row items-center px-4 md:px-[100px] h-auto md:h-[90px] justify-between bg-[#fefdfd] relative z-10 border-b-2 border-gray-200 py-4 md:py-0">
+        <img src={logo} alt="logo" className="w-[80px] h-auto mb-4 md:mb-0" />
+        <div className="right flex flex-col md:flex-row items-center justify-end gap-4 md:gap-2 w-full md:w-auto">
+          <div className="inputBox w-full md:w-[30vw] relative">
+            <div className="flex items-center gap-2 border border-gray-300 rounded-lg px-2 w-full md:w-[30vw] bg-white">
               <RiSearchLine />
               <input
                 type="text"
-                placeholder="Search documents by title..."
+                placeholder="Search documents..."
                 value={searchQuery}
                 onChange={handleSearch}
                 className="p-2 w-full focus:outline-none"
@@ -105,25 +105,27 @@ const Navbar = () => {
             )}
           </div>
 
-          <button
-            className="back-button p-[10px] min-w-[120px] bg-blue-500 text-white rounded-lg border-0 transition-all hover:bg-blue-600"
-            onClick={() => navigate(-1)}
-          >
-            Back
-          </button>
-          <button
-            onClick={logout}
-            className="p-[10px] min-w-[120px] bg-red-500 text-white rounded-lg border-0 transition-all hover:bg-red-600"
-          >
-            Logout
-          </button>
+          <div className="flex flex-row gap-2">
+            <button
+              className="back-button p-[10px] min-w-[100px] md:min-w-[120px] bg-blue-500 text-white rounded-lg border-0 transition-all hover:bg-blue-600"
+              onClick={() => navigate(-1)}
+            >
+              Back
+            </button>
+            <button
+              onClick={logout}
+              className="p-[10px] min-w-[100px] md:min-w-[120px] bg-red-500 text-white rounded-lg border-0 transition-all hover:bg-red-600"
+            >
+              Logout
+            </button>
 
-          <Avatar
-            name={data ? data.name : ""}
-            className="cursor-pointer"
-            size="40"
-            round="50%"
-          />
+            <Avatar
+              name={data ? data.name : ""}
+              className="cursor-pointer"
+              size="40"
+              round="50%"
+            />
+          </div>
         </div>
       </div>
     </>
